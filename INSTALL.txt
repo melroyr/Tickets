@@ -1,0 +1,18 @@
+--------------------
+1 - Requirements
+--------------------
+To install the Tickets app, the following is required:
+- Computer with an OS (windows/unix/linux) capable of running java
+- Sun Java JRE 1.8 or higher installed
+
+--------------------
+2 - Installation
+--------------------
+Download the source code from Git
+use javac to compile the source code to the class files
+
+--------------------
+3 - Run
+--------------------
+set the classpath to the classes directory created in the installation step
+run java com.dasanjos.tickets.app.Tickets and follow the prompts
