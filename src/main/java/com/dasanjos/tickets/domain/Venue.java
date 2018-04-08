@@ -7,24 +7,56 @@ import java.util.Map;
 import java.util.StringTokenizer;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * Tis class represents a venue
+ * 
+ * @author melro
+ *
+ */
 public class Venue {
 	
+	/**
+	 * Venue number of seats widthwise
+	 */
 	public static int WIDTH = 10;
 	
+	/**
+	 * Venue number of rows
+	 */
 	public static int LENGTH = 10;
 	
+	/** 
+	 * Indent for display purpose
+	 */
 	public static String INDENT = "  ";
 	
+	/**
+	 * Venue seats
+	 */
 	private Map<Integer, Seat> seats = new HashMap<>();
 	
+	/**
+	 * Temporarily held seats
+	 */
 	private Map<Long, List<Integer>> heldSeats = new HashMap<>();
 	
+	/**
+	 * Venue name
+	 */
 	private String venueName;
 	
+	/**
+	 * Constructor
+	 * 
+	 * @param venueName
+	 */
 	public Venue(String venueName) {
 		this.venueName = venueName;
 	}
 	
+	/**
+	 * Generate Seats for a venue
+	 */
 	public void generateSeats() {
 		int noOfSeats = WIDTH * LENGTH;
 		Seat seat = null;
@@ -34,19 +66,11 @@ public class Venue {
 			seat.setStatus(Seat.AVALIABLE);
 			seats.put(i, seat);
 		}
-//		seats.get(1).setStatus(Seat.HOLD);
-//		seats.get(12).setStatus(Seat.HOLD);
-//		seats.get(22).setStatus(Seat.HOLD);
-//		seats.get(33).setStatus(Seat.HOLD);
-//		seats.get(44).setStatus(Seat.RESERVED);
-//		seats.get(55).setStatus(Seat.RESERVED);
-//		seats.get(66).setStatus(Seat.RESERVED);
-//		seats.get(77).setStatus(Seat.RESERVED);
-//		seats.get(88).setStatus(Seat.RESERVED);
-//		seats.get(99).setStatus(Seat.RESERVED);
-		
 	}
 	
+	/**
+	 * Display seating arrangement for a venue
+	 */
 	public void displaySeats() {
 		System.out.println("=======================================");
 		int seat = 1;
@@ -57,8 +81,10 @@ public class Venue {
 				lseat = seats.get(seat);
 				if (lseat.getStatus() == Seat.AVALIABLE) {
 					System.out.print(String.format("%02d", lseat.getSeatNumber()));
-				} else {
-					System.out.print("  ");
+				} else if (lseat.getStatus() == Seat.HOLD) {
+					System.out.print("HH");
+				} else if (lseat.getStatus() == Seat.RESERVED) {
+					System.out.print("RR");
 				}
 				seat++;
 			}
@@ -66,6 +92,14 @@ public class Venue {
 		}
 	}
 	
+	/**
+	 * Find and temporarily hold seats. CurrentTimeMills is used as it is unique if this application becomes
+	 * multithreaded.
+	 * 
+	 * @param seats
+	 * @param customerEmail
+	 * @return transaction id
+	 */
 	public long findAndHoldSeats(String seats, String customerEmail) {
 		
 		StringTokenizer tokenizer = new StringTokenizer(seats, ",");
@@ -100,6 +134,12 @@ public class Venue {
 		}
 	}
 	
+	/**
+	 * Reserve temporarily held seats
+	 * 
+	 * @param time
+	 * @return 1 for reserved 0 if hold time elapsed
+	 */
 	public int reserveSeats(Long time) {
 		long currTime = System.currentTimeMillis();
 		long elapsedTime = currTime - time;
@@ -129,11 +169,4 @@ public class Venue {
 			return 1;
 		}
 	}
-	
-	public static void main(String[] args) {
-		Venue venue = new Venue("HIPERF");
-		venue.generateSeats();
-		venue.displaySeats();
-	}
-
 }
