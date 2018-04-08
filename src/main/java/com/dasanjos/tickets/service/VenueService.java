@@ -1,26 +1,34 @@
 package com.dasanjos.tickets.service;
 
+/**
+ * VenueService Interface 
+ * 
+ * @author melro
+ *
+ */
+
 public interface VenueService {
 	
+	/**
+	* The number of seats in the venue that are neither held nor reserved
+	*
+	*/
 	void displaySeats();
 	
 	/**
-	* Find and hold the best available seats for a customer
+	* Find and hold the best available seats for a customer as asked by the customer
 	*
-	* @param numSeats the number of seats to find and hold
+	* @param seats the seats the customer ask to hold
 	* @param customerEmail unique identifier for the customer
-	* @return a List of seats object identifying the specific seats and related
-	information
+	* @return transaction id identifying the specific seats held information
 	*/
 	long findAndHoldSeats(String numSeats, String customerEmail);
 	
 	/**
 	* Commit seats held for a specific customer
 	*
-	* @param seatHoldId the seat hold identifier
-	* @param customerEmail the email address of the customer to which the
-	seat hold is assigned
-	* @return a reservation confirmation code
+	* @param time the seat hold identifier
+	* @return success or failure to reserve
 	*/
 	int reserveSeats(long time);
 	
